@@ -1,0 +1,47 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
+version: "2.2"
+
+services:
+  vault:
+    image: vault:latest
+    cap_add:
+    - "IPC_LOCK"
+    ports:
+    - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "TEST"
+      VAULT_ADDR: "http://localhost:8200"
+      VAULT_TOKEN: "TEST"
+      MYSQL_URL: "vault:vault@tcp(mysql:3306)/"
+
+  mysql:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "main"
+      MYSQL_USER: "vault"
+      MYSQL_PASSWORD: "vault"
+
+  elastic:
+    image: elasticsearch:7.6.0
+    ports:
+    - "9200:9200"
+    environment:
+      "discovery.type": "single-node"
+      "xpack.security.enabled": "true"
+      "ELASTIC_PASSWORD": "elastic"
+
+  influxdb:
+    image: influxdb:1.7.11-alpine
+    ports:
+    - "8086:8086"
+    environment:
+      "DOCKER_INFLUXDB_INIT_USERNAME": "admin"
+      "DOCKER_INFLUXDB_INIT_PASSWORD": "password"
+      "DOCKER_INFLUXDB_INIT_ORG": "test"
+      "DOCKER_INFLUXDB_INIT_BUCKET": "test"
