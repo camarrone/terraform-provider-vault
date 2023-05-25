@@ -24,7 +24,7 @@ builds:
       - windows
     goarch:
       - '386'
-      - amd64
+      # - amd64
       - arm
       - arm64
     ignore:
@@ -32,8 +32,8 @@ builds:
         goos: windows
       - goarch: arm64
         goos: freebsd
-      - goarch: arm64
-        goos: windows
+      # - goarch: amd64
+        # goos: windows
     ldflags:
       - -s -w -X main.Version={{.Version}}
     mod_timestamp: '{{ .CommitTimestamp }}'
