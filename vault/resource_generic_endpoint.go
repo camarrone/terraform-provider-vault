@@ -159,19 +159,19 @@ func genericEndpointResourceDelete(d *schema.ResourceData, meta interface{}) err
 	shouldDelete := !d.Get("disable_delete").(bool)
 
 	if shouldDelete {
-		return nil
-		// 	client, e := provider.GetClient(d, meta)
-		// 	if e != nil {
-		// 		return e
-		// 	}
+		// return nil
+		client, e := provider.GetClient(d, meta)
+		if e != nil {
+			return e
+		}
 
-		// 	path := d.Id()
+		path := d.Id()
 
-		// 	log.Printf("[DEBUG] Deleting vault_generic_endpoint from %q", path)
-		// 	_, err := client.Logical().Delete(path)
-		// 	if err != nil {
-		// 		return fmt.Errorf("error deleting %q from Vault: %q", path, err)
-		// 	}
+		log.Printf("[DEBUG] Deleting vault_generic_endpoint from %q", path)
+		_, err := client.Logical().Delete(path)
+		if err != nil {
+			return fmt.Errorf("error deleting %q from Vault: %q", path, err)
+		}
 	}
 
 	return nil
