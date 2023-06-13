@@ -12,8 +12,6 @@ before:
     - 'go mod download'
     - 'go mod tidy'
 builds:
-  - ldflags:
-   - -s -w -X "main.goversion=1.19.10"
   - # Binary naming only required for Terraform CLI 0.12
     binary: '{{ .ProjectName }}_v{{ .Version }}_x5'
     env:
